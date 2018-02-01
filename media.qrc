@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>media/plane0.png</file>
+        <file>media/plane1.png</file>
+        <file>media/plane2.png</file>
+        <file>media/plane3.png</file>
+        <file>media/logo.png</file>
+    </qresource>
+</RCC>
