@@ -88,9 +88,22 @@ public:
             {
                 QPointF p = event->pos() - m_offset;
 
-                m_plane1->setPos((p * 0.1) + m_pos1);
-                m_plane2->setPos((p * 0.3) + m_pos2);
-                m_plane3->setPos((p * 0.5) + m_pos3);
+                QPointF point1 = m_pos1 + (p * 0.1);
+                QPointF point2 = m_pos2 + (p * 0.3);
+                QPointF point3 = m_pos3 + (p * 0.5);
+
+                QRectF bounds(QPointF(rect().topLeft().x() - rect().width() / 2,
+                                      rect().topLeft().y() - rect().height() / 2),
+                              rect().size() * 2);
+
+                if (bounds.contains(QRectF(point1, rect().size())) &&
+                        bounds.contains(QRectF(point2, rect().size())) &&
+                        bounds.contains(QRectF(point3, rect().size())))
+                {
+                    m_plane1->setPos(point1);
+                    m_plane2->setPos(point2);
+                    m_plane3->setPos(point3);
+                }
             }
         }
 
