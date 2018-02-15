@@ -42,17 +42,19 @@ USE_PLANES {
 }
 
 DISTFILES += \
-    screen.config \
-    screen.config
+    spacetouch.screen
 
-target.path = /root
-INSTALLS += target
+target.path = /opt/spacetouch
+target.files = spacetouch
+extra.path = /opt/spacetouch
+extra.files = resources/spacetouch.sh spacetouch.screen
+configfile.path = /opt/ApplicationLauncher/applications/xml
+configfile.files = resources/10-spacetouch.xml
+imagefile.path = /opt/ApplicationLauncher/applications/resources
+imagefile.files = resources/spacetouch.png
+INSTALLS += target configfile imagefile extra
 
 USE_PLANES {
-   configfile.path = /root
-   configfile.files = screen.config
-   INSTALLS += configfile
-
    CONFIG += link_pkgconfig
    PKGCONFIG += libdrm cairo libcjson lua
 
@@ -60,8 +62,8 @@ USE_PLANES {
 
    LOCALPLANES {
        PKGCONFIG += tslib
-       INCLUDEPATH += /home/jhenderson/planes/include/
-       LIBS += -L/home/jhenderson/planes/src/.libs -lplanes
+       INCLUDEPATH += $(HOME)/planes/include/
+       LIBS += -L$(HOME)/planes/src/.libs -lplanes
    } else {
        PKGCONFIG += libplanes
    }

@@ -37,7 +37,7 @@ public:
         setViewportUpdateMode(ViewportUpdateMode::SmartViewportUpdate);
 
 #ifdef USE_PLANES
-        if (!m_planes.load("screen.config"))
+        if (!m_planes.load("spacetouch.screen"))
         {
             QMessageBox::critical(0, "Failed to Setup Planes",
                                   "This demo requires a version of Qt that provides access to the DRI file descriptor,"
@@ -102,6 +102,13 @@ public:
         m_move = false;
 
         QGraphicsView::mouseReleaseEvent(event);
+    }
+
+    void keyPressEvent(QKeyEvent* k)
+    {
+        if(k->key() == 48){
+            QApplication::instance()->exit();
+        }
     }
 
 private:
