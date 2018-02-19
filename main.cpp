@@ -13,6 +13,7 @@
 #include <QProgressBar>
 #include <QGraphicsProxyWidget>
 #include <QTimer>
+#include <QDesktopWidget>
 
 #ifdef USE_PLANES
 class GraphicsPixmapPlaneItem : public GraphicsPlaneItem
@@ -22,6 +23,7 @@ public:
         : GraphicsPlaneItem(plane, pixmap.rect())
     {
         draw(plane, pixmap.toImage());
+        moveEvent(pos());
     }
 };
 #endif
@@ -46,9 +48,9 @@ public:
             qFatal("Failure setting up planes.");
         }
 
-        m_plane1 = new GraphicsPixmapPlaneItem(m_planes.get("overlay0"), QPixmap(":/media/plane1.png"));
-        m_plane2 = new GraphicsPixmapPlaneItem(m_planes.get("overlay1"), QPixmap(":/media/plane2.png"));
-        m_plane3 = new GraphicsPixmapPlaneItem(m_planes.get("overlay2"), QPixmap(":/media/plane3.png"));
+        m_plane1 = new GraphicsPixmapPlaneItem(m_planes.get("overlay0"), QPixmap(":/media/plane1.png").scaledToWidth(scene->width()));
+        m_plane2 = new GraphicsPixmapPlaneItem(m_planes.get("overlay1"), QPixmap(":/media/plane2.png").scaledToWidth(scene->width()));
+        m_plane3 = new GraphicsPixmapPlaneItem(m_planes.get("overlay2"), QPixmap(":/media/plane3.png").scaledToWidth(scene->width()));
 #else
         m_plane1 = new QGraphicsPixmapItem(QPixmap(":/media/plane1.png"));
         m_plane2 = new QGraphicsPixmapItem(QPixmap(":/media/plane2.png"));
@@ -146,6 +148,8 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
+    QRect screen = QApplication::desktop()->screenGeometry();
+
     QGraphicsScene scene;
 
     /*
@@ -171,7 +175,7 @@ int main(int argc, char *argv[])
     progress->setPalette(p);
     progress->setMaximumWidth(200);
     QGraphicsProxyWidget *proxy = scene.addWidget(progress);
-    proxy->setPos(800 - 200 - 10, 10);
+    proxy->setPos(screen.width() - 200 - 10, 10);
 
     /*
      * Setup the view.
@@ -180,13 +184,13 @@ int main(int argc, char *argv[])
     MyGraphicsView view(&scene);
     view.setStyleSheet("QGraphicsView { border-style: none; }");
     QPixmap background(":/media/plane0.png");
-    view.setBackgroundBrush(background.scaled(800,
-                                              480,
+    view.setBackgroundBrush(background.scaled(screen.width(),
+                                              screen.height(),
                                               Qt::KeepAspectRatio,
                                               Qt::SmoothTransformation));
     view.setCacheMode(QGraphicsView::CacheBackground);
-    view.resize(800, 480);
-    view.setSceneRect(0, 0, 800, 480);
+    view.resize(screen.width(), screen.height());
+    view.setSceneRect(0, 0, screen.width(), screen.height());
     view.setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view.setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view.show();
