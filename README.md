@@ -6,4 +6,4 @@ This is an application that makes use of hardware LCD planes to create a paralla
 
 ## License
 
-This project is is released under the terms of the `Apache 2.0` license. See the `COPYING` file for more information.
+This project is is released under the terms of the `Apache 2.0` license. See the `COPYING` file for more information.  Some source files may be available under different licenses.
