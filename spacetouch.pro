@@ -56,7 +56,6 @@ INSTALLS += target configfile imagefile extra
 
 USE_PLANES {
    CONFIG += link_pkgconfig
-   PKGCONFIG += libdrm cairo libcjson lua
 
    #CONFIG += LOCALPLANES
 
@@ -67,6 +66,8 @@ USE_PLANES {
    } else {
        PKGCONFIG += libplanes
    }
+
+   PKGCONFIG += libdrm cairo libcjson lua
 }
 
 RESOURCES += \
